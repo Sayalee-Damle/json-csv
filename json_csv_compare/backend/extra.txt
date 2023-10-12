@@ -1,0 +1,28 @@
+line_num += 1
+            if line.startswith("  "):
+                continue
+            elif line.startswith("- "):
+                missing_lines.append(line_num)
+            elif line.startswith("+ "):
+                new_lines.append(line_num)
+            elif line.startswith("? "):
+                changed_lines.append(line_num)
+
+
+ m = []
+    n = []
+    c = []
+    print("Missing Lines:")
+    for line_num in missing_lines:
+        m.append(f"Line {line_num} from File 1: {','.join(lines1[line_num - 1])}")
+        logger.info(m)
+
+    print("\nChanged Lines:")
+    for line_num in changed_lines:
+        c.append([f"Line {line_num} from File 1: {','.join(lines1[line_num - 1])}", f"Line {line_num} from File 2: {','.join(lines2[line_num - 1])}"])
+        logger.info(c)
+
+    print("\nNew Lines:")
+    for line_num in new_lines:
+        n.append(f"Line {line_num} from File 2: {','.join(lines2[line_num - 1])}")
+        logger.info(n)

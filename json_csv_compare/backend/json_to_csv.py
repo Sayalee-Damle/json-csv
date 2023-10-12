@@ -9,7 +9,7 @@ from langchain.schema.messages import HumanMessage
 from langchain.chains.openai_functions import create_structured_output_chain
 
 import json_csv_compare.backend.templates as t
-from json_csv_compare.backend.config import cfg 
+from json_csv_compare.config import cfg 
 from json_csv_compare.log_factory import logger
 
 def prompt_factory(system_template, human_template):
@@ -27,10 +27,10 @@ def chain_factory_python_load() -> LLMChain:
         verbose=cfg.verbose_llm,
     )
 
-def load_file(path: Path, path_save: Path):
+async def load_file(path: Path, path_save: Path):
     chain = chain_factory_python_load()
-    loader = chain.run({'json': path, 'path': path_save})
-    return loader
+    loader = await chain.arun({'json': path, 'path': path_save})
+    return python_executor(loader)
 
 def python_executor(code):
     python_executor_dir = cfg.python_executor
@@ -55,8 +55,9 @@ def python_executor(code):
 
     
 if __name__ == "__main__":
+    import asyncio
     path = Path(f"C:/Users/Sayalee/Downloads/EmployeeData.json")
-    load_csv = load_file(path, cfg.path_excel / "{file.stem}.csv")
+    load_csv = asyncio.run(load_file(path, cfg.path_csv / f'{path.stem}.csv'))
     logger.info(load_csv)
-    py_file = python_executor(load_csv)
-    logger.info(py_file)
+    #py_file = asyncio.run(python_executor(load_csv))
+    #logger.info(py_file)

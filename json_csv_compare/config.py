@@ -22,10 +22,14 @@ class Config:
     python_executor = Path(os.getenv("PYTHON_SCRIPT"))
 
     
-    path_excel = Path(os.getenv("EXCEL_PATH_DISC"))
+    path_json = Path(os.getenv("JSON_PATH_DISC"))
+    path_csv = Path(os.getenv("CSV_FILES"))
     
-    if not path_excel.exists():
-        path_excel.mkdir(exist_ok=True, parents=True)
+    if not path_json.exists():
+        path_json.mkdir(exist_ok=True, parents=True)
+
+    if not path_csv.exists():
+        path_csv.mkdir(exist_ok=True, parents=True)
 
     ui_timeout = os.getenv("REQUEST_TIMEOUT")
 
