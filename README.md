@@ -5,9 +5,9 @@ This tool will use the ChatGPT API to convert the excel spreadsheet into a datab
 
 ## installation instructions
 
-pip install poetry
+```pip install poetry
 poetry shell
-poetry install
+poetry install```
 
 
 
