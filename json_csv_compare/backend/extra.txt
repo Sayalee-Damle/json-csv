@@ -9,7 +9,7 @@ line_num += 1
                 changed_lines.append(line_num)
 
 
- m = []
+    m = []
     n = []
     c = []
     print("Missing Lines:")

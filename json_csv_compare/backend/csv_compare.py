@@ -12,6 +12,7 @@ from langchain.chains.openai_functions import create_structured_output_chain
 import json_csv_compare.backend.templates as t
 from json_csv_compare.config import cfg
 from json_csv_compare.log_factory import logger
+from pprint import pprint
 
 import csv
 import difflib
@@ -21,7 +22,7 @@ async def compare_csv_files(file1_path, file2_path):
     with open(file1_path, "r") as file1, open(file2_path, "r") as file2:
         csv_reader1 = csv.reader(file1)
         csv_reader2 = csv.reader(file2)
-
+        
         lines1 = list(csv_reader1)
         lines2 = list(csv_reader2)
 
@@ -31,18 +32,23 @@ async def compare_csv_files(file1_path, file2_path):
         new_lines = []
 
         f = True
-        diff = {}
-        l = 55
-        print(lines1[l])
-        print(lines2[l])
+        #diff = {}
+        l = 1
+        #print(lines1[l])
+        #print(lines2[l])
         print(lines1[l] != lines2[l])
         #print(len(lines2))
+        f = True
+    
+        l = 1
+        while f == True:
+            
+            diff = list(differ.compare(lines1[l], lines2[l]))
+            pprint(diff)
+            if l == max(len(lines1)-1, len(lines2)-1):
+                f = False
+            l += 1
         return diff
-        while l != max(len(lines1), len(lines2)):
-            if lines1[l] != lines2[l]:
-                diff['line_number'+str(l)] = (lines1[l], lines2[l])
-            l+=1
-    return diff
 
 
 def prompt_factory(system_template, human_template):

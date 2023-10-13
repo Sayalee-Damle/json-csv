@@ -48,9 +48,12 @@ async def start() -> cl.Message:
             await cl.Message(content=f"Some error occured").send()
             return
         path_csv_2 = await get_csv(path_json)
-        missing_lines, new_lines, changed_lines = await c.compare_csv_files(path_csv, path_csv_2)
-        table = await c.format_to_table(missing_lines, new_lines, changed_lines)
-        await cl.Message(content=table).send()
+        
+        while True:
+            lines = await c.compare_csv_files(path_csv, path_csv_2)
+            table = await c.format_to_table(lines)
+            await cl.Message(content=table).send()
+            
         await delete_json(path_json)
         return
 
